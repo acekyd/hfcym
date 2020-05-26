@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How far can you maths?</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <h1>Maths is a fascinating phenomenon. Let's play a game.</h1>
+    <div id="app">
+        <div>
+            <h2>{{prev}} x {{next}}</h2>
+            <input type="" id="score" />
+
+        </div>
+    </div>
+</body>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            level: 1,
+            prev: 1,
+            next: 2,
+            answer: 0
+        },
+        methods: {
+            getMultiplier: function () {
+                this.prev = Math.pow(2, this.level)
+            }
+        },
+        created(){
+            this.getMultiplier()
+        }
+    })
+</script>
+
+<script>
+    function pageChanged() {
+        if (document.hidden) {
+            console.log('User is on some other tab/out of focus') // line #1
+        } else {
+            console.log('Hurray! User returned') // line #2
+        }
+    }
+    document.addEventListener("visibilitychange", pageChanged);
+
+</script>
+<script>
+    if ('ondevicelight' in window) {
+        window.addEventListener('devicelight', function(event) {
+            // Get the ambient light level in lux.
+            console.log(event.value);
+        });
+    } else {
+        console.log('devicelight event not supported');
+    }
+</script>
+
+</html>
