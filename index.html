@@ -10,8 +10,12 @@
     <h1>Maths is a fascinating phenomenon. Let's play a game.</h1>
     <div id="app">
         <div>
-            <h2>{{prev}} x {{next}}</h2>
-            <input type="" id="score" />
+            <h2>Level {{ level }}</h2>
+            <h2>{{prev}} x {{multiplier}}</h2>
+            <input v-on:keyup.enter="submit" v-model.number="answer" type="number" />
+            <p>{{ status }}</p>
+
+            <h2>Score: {{ score }}</h2>
 
         </div>
     </div>
@@ -23,40 +27,39 @@
         data: {
             level: 1,
             prev: 1,
-            next: 2,
-            answer: 0
+            multiplier: 2,
+            answer: null,
+            correctAnswer: 0,
+            score: 0,
+            status: ""
         },
         methods: {
-            getMultiplier: function () {
-                this.prev = Math.pow(2, this.level)
+            submit: function () {
+                console.log("submitted");
+                this.correctAnswer = Math.pow(this.multiplier, this.level)
+                console.log(this.correctAnswer, this.answer);
+                if(this.correctAnswer == this.answer) {
+                    this.status = "Correct";
+                    this.answer = null;
+                    this.level++;
+                    this.prev = this.correctAnswer;
+                    this.score += this.correctAnswer;
+                }
+                else {
+                    this.gameOver();
+                }
+            },
+            gameOver: function () {
+                status = "Game over!";
+            },
+            tryAgain: function () {
+                 Object.assign(this.$data, this.$options.data.call(this));
             }
         },
         created(){
-            this.getMultiplier()
         }
     })
 </script>
 
-<script>
-    function pageChanged() {
-        if (document.hidden) {
-            console.log('User is on some other tab/out of focus') // line #1
-        } else {
-            console.log('Hurray! User returned') // line #2
-        }
-    }
-    document.addEventListener("visibilitychange", pageChanged);
-
-</script>
-<script>
-    if ('ondevicelight' in window) {
-        window.addEventListener('devicelight', function(event) {
-            // Get the ambient light level in lux.
-            console.log(event.value);
-        });
-    } else {
-        console.log('devicelight event not supported');
-    }
-</script>
 
 </html>
