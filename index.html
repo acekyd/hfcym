@@ -5,20 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>How far can you maths?</title>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <h1>Maths is a fascinating phenomenon. Let's play a game.</h1>
-    <div id="app">
-        <div>
-            <h2>Level {{ level }}</h2>
-            <h2>{{prev}} x {{multiplier}}</h2>
-            <input v-on:keyup.enter="submit" v-model.number="answer" type="number" />
-            <p>{{ status }}</p>
+    <header>
+        <h1>
+            How Maths Can You Go?
+        </h1>
+        <p>
+            Maths is a fascinating phenomenon. Let's play a game.
+        </p>
+    </header>
+    <section id="app">
+        <section class="cards">
+            <article class="card how-to">
+                <h1>How to Play:</h1>
+                This game tests your knowledge of maths multipliers.
+            </article>
+            <section class="card">
+                <h2>Level {{ level }}</h2>
+                <h2>{{prev}} x {{multiplier}}</h2>
+                <input v-on:keyup.enter="submit" v-model.number="answer" type="number" />
+                <p>{{ status }}</p>
 
-            <h2>Score: {{ score }}</h2>
+                <h2>Score: {{ score }}</h2>
+            </section>
 
-        </div>
-    </div>
+
+        </section>
+    </section>
 </body>
 
 <script>
@@ -50,7 +65,7 @@
                 }
             },
             gameOver: function () {
-                status = "Game over!";
+                this.status = "Game over!";
             },
             tryAgain: function () {
                  Object.assign(this.$data, this.$options.data.call(this));
