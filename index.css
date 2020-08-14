@@ -1,16 +1,36 @@
 body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+}
+header {
+    min-height: 150px;
+    background-color: #ccc;
+    text-align: center;
     padding: 1rem;
 }
 
+header h1 {
+    margin-top: 0;
+    padding-top: 2rem;
+}
 .cards {
     margin: 0 auto;
+    max-width: 960px;
     display: grid;
     align-items: center;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    margin-top: 5%;
 
 }
 .how-to {
     text-align: center;
+}
+
+.card {
+    margin: 1rem;
+    height: 70%;
 }
 
 .card:first-child {

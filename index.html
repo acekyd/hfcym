@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>How far can you maths?</title>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
+
 </head>
 <body>
     <header>
@@ -23,12 +25,12 @@
                 This game tests your knowledge of maths multipliers.
             </article>
             <section class="card">
-                <h2>Level {{ level }}</h2>
+                <h1>Level {{ level }} - {{ timeLeft }}</h1>
                 <h2>{{prev}} x {{multiplier}}</h2>
                 <input v-on:keyup.enter="submit" v-model.number="answer" type="number" />
                 <p>{{ status }}</p>
 
-                <h2>Score: {{ score }}</h2>
+                <p>Score: {{ score }}</p>
             </section>
 
 
@@ -46,7 +48,10 @@
             answer: null,
             correctAnswer: 0,
             score: 0,
-            status: ""
+            status: "",
+            time: 10,
+            timePassed: 0,
+            timerInterval: null
         },
         methods: {
             submit: function () {
@@ -58,7 +63,8 @@
                     this.answer = null;
                     this.level++;
                     this.prev = this.correctAnswer;
-                    this.score += this.correctAnswer;
+                    this.score += this.correctAnswer+this.timeLeft;
+                    this.startTimer();
                 }
                 else {
                     this.gameOver();
@@ -69,9 +75,21 @@
             },
             tryAgain: function () {
                  Object.assign(this.$data, this.$options.data.call(this));
+            },
+            startTimer() {
+                clearInterval(this.timerInterval);
+                this.timePassed = 0;
+                this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
+
             }
         },
-        created(){
+        mounted() {
+            this.timeLeft
+        },
+        computed: {
+            timeLeft() {
+                return this.time - this.timePassed;
+            }
         }
     })
 </script>
