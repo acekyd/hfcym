@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How far can you maths?</title>
+    <title>How far can you math?</title>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
@@ -12,7 +12,7 @@
 <body>
     <header>
         <h1>
-            How Maths Can You Go?
+            How Far Can You Math?
         </h1>
         <p>
             Maths is a fascinating phenomenon. Let's play a game.
@@ -24,13 +24,22 @@
                 <h1>How to Play:</h1>
                 This game tests your knowledge of maths multipliers.
             </article>
-            <section class="card">
-                <h1>Level {{ level }} - {{ timeLeft }}</h1>
-                <h2>{{prev}} x {{multiplier}}</h2>
-                <input v-on:keyup.enter="submit" v-model.number="answer" type="number" />
-                <p>{{ status }}</p>
+            <section class="card app">
+                <section class="main-app">
+                    <h1 class="timeLeft">{{ timeLeft }}</h1>
+                    <h2>{{prev}} x {{multiplier}}</h2>
+                    <input v-on:keyup.enter="submit" v-model.number="answer" type="number" />
+                    <p>{{ status }}</p>
 
-                <p>Score: {{ score }}</p>
+                    <p>Score: {{ score }}</p>
+                </section>
+                <section class="game-over">
+                    <h1>Game Over</h1>
+                    <h2>You made it to Level {{ level }}!</h2>
+                    <h3>Score</h3>
+                    <h1>290</h1>
+                </section>
+
             </section>
 
 
@@ -72,6 +81,8 @@
             },
             gameOver: function () {
                 this.status = "Game over!";
+                this.timePassed = 0;
+                clearInterval(this.timerInterval);
             },
             tryAgain: function () {
                  Object.assign(this.$data, this.$options.data.call(this));
