@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>How far can you math?</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
 
@@ -25,19 +25,26 @@
                 This game tests your knowledge of maths multipliers.
             </article>
             <section class="card app">
-                <section class="main-app">
-                    <h1 class="timeLeft">{{ timeLeft }}</h1>
+                <section v-if="!started && status != 'Game over!'" class="welcome-app">
+                    <h2>Press Start to begin!</h2>
+                    <button class="btn btn-startgame" @click="startGame()">Start Game</button>
+
+                </section>
+                <section v-if="started && !status != 'Game over!'" class="main-app">
+                    <h1 class="timeLeft">Time Left: {{ timeLeft }}</h1>
                     <h2>{{prev}} x {{multiplier}}</h2>
                     <input v-on:keyup.enter="submit" v-model.number="answer" type="number" />
                     <p>{{ status }}</p>
 
                     <p>Score: {{ score }}</p>
                 </section>
-                <section class="game-over">
+                <section class="game-over" v-if="!started && status == 'Game over!'">
                     <h1>Game Over</h1>
                     <h2>You made it to Level {{ level }}!</h2>
-                    <h3>Score</h3>
-                    <h1>290</h1>
+                    <h3>Score:</h3>
+                    <h1>{{ score }}</h1>
+
+                    <a :href="'http://twitter.com/share?text=I scored ' + score + ' on this fun math game. Can you beat my score?&url=http://hfcym.github.com&hashtags=#hfcym'" target="_blank">Share on Twitter</a>
                 </section>
 
             </section>
@@ -51,6 +58,7 @@
     var app = new Vue({
         el: '#app',
         data: {
+            started: false,
             level: 1,
             prev: 1,
             multiplier: 2,
@@ -63,6 +71,11 @@
             timerInterval: null
         },
         methods: {
+            startGame: function() {
+                console.log("Game has started!");
+                this.started = true;
+                this.startTimer();
+            },
             submit: function () {
                 console.log("submitted");
                 this.correctAnswer = Math.pow(this.multiplier, this.level)
@@ -83,6 +96,7 @@
                 this.status = "Game over!";
                 this.timePassed = 0;
                 clearInterval(this.timerInterval);
+                this.started = false;
             },
             tryAgain: function () {
                  Object.assign(this.$data, this.$options.data.call(this));
@@ -91,8 +105,13 @@
                 clearInterval(this.timerInterval);
                 this.timePassed = 0;
                 this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
-
             }
+        },
+        watch: {
+            timePassed: function (val) {
+                if(val > 10) this.gameOver();
+            },
+
         },
         mounted() {
             this.timeLeft

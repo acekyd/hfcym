@@ -38,7 +38,9 @@ header h1 {
 }
 
 .timeLeft {
-    font-size: 50px;
+    font-size: 30px;
+    margin: 10px 0;
+    text-align: right;
 }
 
 .card:first-child {
