@@ -72,14 +72,11 @@
         },
         methods: {
             startGame: function() {
-                console.log("Game has started!");
                 this.started = true;
                 this.startTimer();
             },
             submit: function () {
-                console.log("submitted");
                 this.correctAnswer = Math.pow(this.multiplier, this.level)
-                console.log(this.correctAnswer, this.answer);
                 if(this.correctAnswer == this.answer) {
                     this.status = "Correct";
                     this.answer = null;
@@ -97,9 +94,6 @@
                 this.timePassed = 0;
                 clearInterval(this.timerInterval);
                 this.started = false;
-            },
-            tryAgain: function () {
-                 Object.assign(this.$data, this.$options.data.call(this));
             },
             startTimer() {
                 clearInterval(this.timerInterval);
